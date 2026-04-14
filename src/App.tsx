@@ -6,7 +6,7 @@ const App = () => {
           {/* <div className="text-xl font-bold tracking-wide">
             The Fofana's <br /> <span className="text-sky-400">Rides &amp; Delivery Services</span>
           </div> */}
-          <div className="text-2xl font-bold tracking-wide">The Fofanas</div>
+          <div className="text-2xl font-bold tracking-wide">THE FOFANA'S</div>
           <nav className="flex flex-wrap items-center gap-3 text-sm font-semibold md:text-base">
             <a className="transition hover:text-sky-300" href="#about">
               About
