@@ -4,8 +4,11 @@ const App = () => {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/80 backdrop-blur">
         <div className="mx-auto flex w-[92%] max-w-6xl flex-col items-start justify-between gap-3 py-4 md:flex-row md:items-center">
-          <div className="text-lg font-bold tracking-wide">
-            Fofana <span className="text-sky-400">Rides &amp; Delivery Services</span>
+          {/* <div className="text-xl font-bold tracking-wide">
+            The Fofana's <br /> <span className="text-sky-400">Rides &amp; Delivery Services</span>
+          </div> */}
+          <div className="text-2xl font-bold tracking-wide">
+            The Fofanas
           </div>
           <nav className="flex flex-wrap items-center gap-3 text-sm font-semibold md:text-base">
             <a className="transition hover:text-sky-300" href="#about">About</a>
@@ -138,7 +141,7 @@ const App = () => {
             </p>
             <div className="mt-6 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
               <article className="rounded-xl border border-slate-600 bg-slate-900/70 p-5">
-                <h3 className="text-xl font-bold text-white">Mr. Alhassan Abdul Hamid</h3>
+                <h3 className="text-xl font-bold text-white">Abdul Hamid Zalia</h3>
                 <p className="mt-1 text-sm font-semibold text-sky-300">Chief Executive Officer (CEO)</p>
                 <p className="mt-3 text-slate-300">
                   Oversees company vision, partnerships, and expansion of
@@ -149,7 +152,7 @@ const App = () => {
                 </p>
               </article>
               <article className="rounded-xl border border-slate-600 bg-slate-900/70 p-5">
-                <h3 className="text-xl font-bold text-white">Mr. Fofana</h3>
+                <h3 className="text-xl font-bold text-white">Abdul Hamid Boushirah</h3>
                 <p className="mt-1 text-sm font-semibold text-sky-300">Co-CEO, Operations &amp; Compliance</p>
                 <p className="mt-3 text-slate-300">
                   Leads daily operations, delivery standards, and rider/driver
