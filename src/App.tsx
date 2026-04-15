@@ -8,7 +8,7 @@ const leadershipTeam = [
       "Oversees company vision, partnerships, and expansion of logistics operations.",
     phone: "+233 (20) 361-7839",
     image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80",
+      "",
   },
   {
     name: "Abdul Hamid Boushirah",
@@ -17,7 +17,8 @@ const leadershipTeam = [
       "Leads daily operations, delivery standards, and rider/driver performance management.",
     phone: "+233 (000) 000-0000",
     image:
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80",
+      // "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80",
+      ""
   },
   {
     name: "Abdul Hamid Alhassan",
@@ -26,7 +27,8 @@ const leadershipTeam = [
       "Leads daily operations, delivery standards, and rider/driver performance management.",
     phone: "+233 (000) 000-0000",
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80",
+    // "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80",
+    ""
   },
 ];
 
