@@ -36,6 +36,7 @@ const navLinks = [
   { label: "Leadership", href: "#leadership" },
   { label: "Contact", href: "#contact" },
 ];
+const sectionIds = ["home", "about", "fleet", "leadership", "contact"] as const;
 
 const App = () => {
   const [theme, setTheme] = useState<"light" | "dark">(() => {
@@ -49,6 +50,13 @@ const App = () => {
     return "light";
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>(
+    () =>
+      sectionIds.reduce<Record<string, boolean>>((acc, id) => {
+        acc[id] = id === "home";
+        return acc;
+      }, {}),
+  );
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -75,7 +83,41 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.getAttribute("id");
+          if (!id) return;
+          setVisibleSections((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+        });
+      },
+      { threshold: 0.2, rootMargin: "-8% 0px -8% 0px" },
+    );
+
+    sectionIds.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const isDark = theme === "dark";
+  const getSectionAnimationClass = (id: string) =>
+    visibleSections[id]
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-8";
+
+  const navigateToSection = (href: string) => {
+    const targetId = href.replace("#", "");
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
     <div className={`relative min-h-screen scroll-smooth ${isDark ? "bg-slate-950 text-slate-100" : "bg-slate-100 text-slate-900"}`}>
@@ -104,6 +146,10 @@ const App = () => {
                 key={link.href}
                 className={`rounded-md px-2 py-1 transition duration-200 hover:-translate-y-0.5 hover:text-sky-600 focus:outline-none focus:ring-2 ${isDark ? "focus:ring-sky-400/60" : "focus:ring-sky-500/50"}`}
                 href={link.href}
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigateToSection(link.href);
+                }}
               >
                 {link.label}
               </a>
@@ -193,7 +239,10 @@ const App = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigateToSection(link.href);
+                  }}
                   className={`rounded-lg px-3 py-2 text-base font-semibold transition duration-200 hover:translate-x-1 ${isDark ? "hover:bg-slate-800" : "hover:bg-slate-100"}`}
                 >
                   {link.label}
@@ -204,7 +253,7 @@ const App = () => {
         </div>
 
       <main>
-        <section className="py-16">
+        <section id="home" className={`py-16 transition-all duration-700 ease-out ${getSectionAnimationClass("home")}`}>
           <div className="mx-auto grid w-[92%] max-w-6xl gap-6 md:grid-cols-2 md:items-center">
             <div>
               <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
@@ -277,7 +326,7 @@ const App = () => {
           </div>
         </section>
 
-        <section id="about" className="py-12">
+        <section id="about" className={`py-12 transition-all duration-700 ease-out ${getSectionAnimationClass("about")}`}>
           <div className="mx-auto w-[92%] max-w-6xl">
             <div className="mx-auto mb-8 max-w-3xl text-center">
               <h2 className="text-3xl font-extrabold">What We Do</h2>
@@ -308,7 +357,7 @@ const App = () => {
                 <img
                   src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80"
                   alt="Ride and delivery service"
-                  className={`mt-3 h-44 w-full rounded-xl border object-cover ${isDark ? "border-slate-600" : "border-slate-300"}`}
+                  className={`mt-3 h-44 w-full rounded-xl border object-cover transition duration-300 hover:scale-[1.02] ${isDark ? "border-slate-600" : "border-slate-300"}`}
                 />
                 <p className={`mt-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                   Move fast or move people - we handle both.
@@ -327,7 +376,7 @@ const App = () => {
                 <img
                   src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=80"
                   alt="Cattle farming"
-                  className={`mt-3 h-44 w-full rounded-xl border object-cover ${isDark ? "border-slate-600" : "border-slate-300"}`}
+                  className={`mt-3 h-44 w-full rounded-xl border object-cover transition duration-300 hover:scale-[1.02] ${isDark ? "border-slate-600" : "border-slate-300"}`}
                 />
                 <p className={`mt-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                   Healthy livestock, quality supply, local growth.
@@ -344,7 +393,7 @@ const App = () => {
                 <img
                   src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80"
                   alt="Logistics operations"
-                  className={`mt-3 h-44 w-full rounded-xl border object-cover ${isDark ? "border-slate-600" : "border-slate-300"}`}
+                  className={`mt-3 h-44 w-full rounded-xl border object-cover transition duration-300 hover:scale-[1.02] ${isDark ? "border-slate-600" : "border-slate-300"}`}
                 />
                 <p className={`mt-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                   We move it right, on time, every time.
@@ -361,7 +410,7 @@ const App = () => {
                 <img
                   src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&w=1200&q=80"
                   alt="Laundry services"
-                  className={`mt-3 h-44 w-full rounded-xl border object-cover ${isDark ? "border-slate-600" : "border-slate-300"}`}
+                  className={`mt-3 h-44 w-full rounded-xl border object-cover transition duration-300 hover:scale-[1.02] ${isDark ? "border-slate-600" : "border-slate-300"}`}
                 />
                 <p className={`mt-2 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                   Fresh, clean, and hassle-free.
@@ -385,7 +434,7 @@ const App = () => {
           </div>
         </section>
 
-        <section id="fleet" className="py-12">
+        <section id="fleet" className={`py-12 transition-all duration-700 ease-out ${getSectionAnimationClass("fleet")}`}>
           <div className="mx-auto w-[92%] max-w-6xl">
             <div className="mx-auto mb-8 max-w-3xl text-center">
               <h2 className="text-3xl font-extrabold">Ride &amp; Delivery Operations</h2>
@@ -432,7 +481,7 @@ const App = () => {
           </div>
         </section>
 
-        <section id="leadership" className="py-12">
+        <section id="leadership" className={`py-12 transition-all duration-700 ease-out ${getSectionAnimationClass("leadership")}`}>
           <div className={`mx-auto w-[92%] max-w-6xl rounded-2xl border p-8 text-center backdrop-blur-md ${isDark ? "border-slate-600 bg-slate-900/45" : "border-white/50 bg-white/35"}`}>
             <h2 className="text-3xl font-extrabold">Company Leadership</h2>
             <p className={`mt-3 ${isDark ? "text-slate-300" : "text-slate-700"}`}>
@@ -449,7 +498,7 @@ const App = () => {
                     <img
                       src={leader.image}
                       alt={leader.name}
-                      className={`h-52 w-full rounded-xl border object-cover sm:h-44 sm:w-40 ${isDark ? "border-slate-600" : "border-slate-300"}`}
+                      className={`h-52 w-full rounded-xl border object-cover transition duration-300 hover:scale-[1.02] sm:h-44 sm:w-40 ${isDark ? "border-slate-600" : "border-slate-300"}`}
                     />
                     <div className="flex-1">
                       <h3 className={`text-xl font-bold ${isDark ? "text-slate-100" : "text-slate-900"}`}>{leader.name}</h3>
@@ -473,7 +522,7 @@ const App = () => {
           </div>
         </section>
 
-        <section id="contact" className="py-12">
+        <section id="contact" className={`py-12 transition-all duration-700 ease-out ${getSectionAnimationClass("contact")}`}>
           <div className="mx-auto w-[92%] max-w-6xl">
             <div className="mx-auto mb-8 max-w-3xl text-center">
               <h2 className="text-3xl font-extrabold">Contact Us</h2>
